@@ -1,0 +1,6 @@
+version: '3'
+services:
+  sut:
+    image: dynamodb-utils-test:latest
+    env_file: .env
+    command: ["pytest", "tests/", "-vv"]

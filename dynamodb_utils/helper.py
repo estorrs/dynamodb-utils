@@ -47,16 +47,24 @@ class DynamodbHelper(object):
         self.table_key = table_key
         self.table_name = table_name
 
-    def get_item(self, key):
+    def get_item(self, key, attributes_to_get=None):
         """get item from table with given key"""
         if key is None:
             return None
 
-        response = self.table.get_item(
-                Key={
-                    self.table_key: key
-                }
-            )
+        if attributes_to_get:
+            response = self.table.get_item(
+                    Key={
+                        self.table_key: key
+                    },
+                    ProjectionExpression=', '.join(attributes_to_get)
+                )
+        else:
+            response = self.table.get_item(
+                    Key={
+                        self.table_key: key
+                    }
+                )
 
         item = response.get('Item', None)
 

@@ -58,3 +58,22 @@ def test_update_list():
     result = helper.get_item(key)
 
     assert result['nested']['phrase'] == ['world', 'hello', 'world']
+
+def test_get_multiple_items():
+    payload = {
+            KEY_NAME: '1',
+            'number_x': 3.1,
+            'nested': {
+                'phrase': [
+                    'world'
+                    ]
+                }
+            }
+
+    helper.put_item(payload)
+
+    attributes_to_get = [KEY_NAME, 'number_x', 'nested.phrase']
+    items = helper.get_multiple_items([key, '1'], attributes_to_get=attributes_to_get)
+
+    assert items[1] == payload
+
